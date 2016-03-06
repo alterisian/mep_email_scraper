@@ -57,7 +57,9 @@ for (i in 1:nrow(xy)) {
   epname <- read_html(as.character(xy[i, "html.name"]))
   epname <- epname %>% html_nodes("div#content_right a") %>% html_attr("href")
   write(sub("mailto:", replacement = "", x = epname[grepl("mailto", epname)]), file = "meps.txt", append = TRUE)
-  Sys.sleep(rnorm(1, mean = 3, sd = 1)) # sleep a bit, although downloading of a website already takes long
+  sleep <- rnorm(1, mean = 3, sd = 1)
+  if (sleep <= 0) sleep <- 1
+  Sys.sleep(sleep) # sleep a bit, although downloading of a website already takes long
 }
 ```
 
