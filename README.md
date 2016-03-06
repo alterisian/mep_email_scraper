@@ -5,7 +5,7 @@ date: "06 marec 2016"
 output: html_document
 ---
 
-The following script will try to scape a list of MEPs for their e-mails found at [this address](http://www.europarl.europa.eu/meps/en/full-list.html?filter=all&leg=).
+The following script will try to scape a list of MEPs for their e-mails found at [this address](http://www.europarl.europa.eu/meps/en/full-list.html?filter=all&leg=). [This](https://github.com/romunov/mep_email_scraper/blob/master/meps.txt) is the result, with an e-mail friendy version which can be found [here](https://github.com/romunov/mep_email_scraper/blob/master/email_friendly.txt).
 
 For this method to work, in addition to what is loaded in the script below, you will need to have [PhantomJS](http://phantomjs.org/) installed and in your PATH or somehow visible to the `system()` call.
 
