@@ -11,6 +11,8 @@ For this method to work, in addition to what is loaded in the script below, you 
 
 This list was scraped in March 2016 and the file is available in the repository `<> Code`. If you need to update it, feel free to scrape it again.
 
+NOTE: Some members do not have an email listed and others have more than one, which is why there are more than 751 contacts.
+
 Special thanks to [m0nhawk](http://stackoverflow.com/users/1030110/m0nhawk) and [Jaap](http://stackoverflow.com/users/2204410/jaap) for tips on webscraping.
 
 ```r
@@ -64,5 +66,10 @@ for (i in 1:nrow(xy)) {
   if (sleep <= 0) sleep <- 1
   Sys.sleep(sleep) # sleep a bit, although downloading of a website already takes long
 }
+
+# Write emails in a format that is easy to copy/paste into your favorite email client.
+# Note that there may be a limit of how many addresses the client can process.
+meps.email <- read.table("meps.txt", header = FALSE)
+write(paste(meps.email$V1, collapse = ", "), file = "email_friendly.txt")
 ```
 
