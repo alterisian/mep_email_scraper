@@ -8,6 +8,8 @@ For this method to work, in addition to what is loaded in the script below, you 
 
 This list was scraped in March 2016 and the file is available in the repository `<> Code`. If you need to update it, feel free to scrape it again.
 
+Special thanks to [m0nhawk](http://stackoverflow.com/users/1030110/m0nhawk) and [Jaap](http://stackoverflow.com/users/2204410/jaap) for tips on webscraping.
+
 ```r
 library(rvest)
 
