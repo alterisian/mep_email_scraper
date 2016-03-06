@@ -21,18 +21,18 @@ library(rvest)
 # from https://www.datacamp.com/community/tutorials/scraping-javascript-generated-data-with-r
 writeJS <- function(link, file, html.name) {
   writeLines(sprintf("
-var webPage = require('webpage');
-var page = webPage.create();
-
-var fs = require('fs');
-var path = '%s'
-
-page.open('%s', function (status) {
-  var content = page.content;
-  fs.write(path,content,'w')
-  phantom.exit();
-});
-", html.name, link),
+                     var webPage = require('webpage');
+                     var page = webPage.create();
+                     
+                     var fs = require('fs');
+                     var path = '%s'
+                     
+                     page.open('%s', function (status) {
+                     var content = page.content;
+                     fs.write(path,content,'w')
+                     phantom.exit();
+                     });
+                     ", html.name, link),
              con = file)
   system(sprintf("phantomjs %s --local-storage-path='%s'", file, html.name))
 }
@@ -57,19 +57,34 @@ xy <- data.frame(
 )
 
 for (i in 1:nrow(xy)) {
+  # download page
   writeJS(link = as.character(xy[i, "link"]),
           file = as.character(xy[i, "jsname"]), html.name = as.character(xy[i, "html.name"]))
+  
+  # read data (name, email)
   epname <- read_html(as.character(xy[i, "html.name"]))
+  mep.name <- epname %>% html_nodes("a#mep_name_button") %>% html_attr("title")
   epname <- epname %>% html_nodes("div#content_right a") %>% html_attr("href")
-  write(sub("mailto:", replacement = "", x = epname[grepl("mailto", epname)]), file = "meps.txt", append = TRUE)
-  sleep <- rnorm(1, mean = 3, sd = 1)
+  email <- sub("mailto:", replacement = "", x = epname[grepl("mailto", epname)])
+  
+  if (identical(email, character(0))) email <- "(no email)"
+  
+  towrite <- data.frame(email = email, name = mep.name)
+  write.table(towrite, file = "meps.txt", append = TRUE, row.names = FALSE,
+              col.names = FALSE, quote = FALSE, sep = "\t")
+  
+  # sleep
+  sleep <- rpois(1, lambda = 4)
   if (sleep <= 0) sleep <- 1
   Sys.sleep(sleep) # sleep a bit, although downloading of a website already takes long
 }
 
 # Write emails in a format that is easy to copy/paste into your favorite email client.
 # Note that there may be a limit of how many addresses the client can process.
-meps.email <- read.table("meps.txt", header = FALSE)
+meps.email <- read.table("meps.txt", header = FALSE, sep = "\t")
+
+# remove members with no e-mail
+meps.email <- meps.email[!(meps.email$V1 %in% c("(no email)")), ]
 write(paste(meps.email$V1, collapse = ", "), file = "email_friendly.txt")
 ```
 
