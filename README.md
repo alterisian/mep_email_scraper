@@ -37,9 +37,9 @@ page.open('%s', function (status) {
 
 # get a list of all MEPs
 writeJS(link = "http://www.europarl.europa.eu/meps/en/full-list.html?filter=all&leg=",
-        file = "./js/meps.js", html.name = "./js/meps.html")
+        file = "./js/meps.js", html.name = "./html/meps.html")
 
-meps <- read_html("./js/meps.html")
+meps <- read_html("./html/meps.html")
 
 mep.links <- meps %>%
   html_nodes("div#content_left div.zone_info_mep a") %>%
