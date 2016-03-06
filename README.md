@@ -4,6 +4,9 @@ author: "Roman Luštrik"
 date: "06 marec 2016"
 output: html_document
 ---
+
+The following script will try to scape a list of MEPs for their e-mails found at [this address](http://www.europarl.europa.eu/meps/en/full-list.html?filter=all&leg=).
+
 For this method to work, in addition to what is loaded in the script below, you will need to have [PhantomJS](http://phantomjs.org/) installed and in your PATH or somehow visible to the `system()` call.
 
 This list was scraped in March 2016 and the file is available in the repository `<> Code`. If you need to update it, feel free to scrape it again.
