@@ -39,6 +39,7 @@ xy <- data.frame(
 )
 
 for (i in 1:nrow(xy)) {
+  i <- 52
   # download page
   writeJS(link = as.character(xy[i, "link"]),
           file = as.character(xy[i, "jsname"]), html.name = as.character(xy[i, "html.name"]))
@@ -46,6 +47,11 @@ for (i in 1:nrow(xy)) {
   # read data (name, email)
   epname <- read_html(as.character(xy[i, "html.name"]))
   mep.name <- epname %>% html_nodes("a#mep_name_button") %>% html_attr("title")
+  
+  if (length(mep.name) == 0) {
+    mep.name <- epname %>% html_nodes(".mep_name") %>% html_text()
+  }
+  
   epname <- epname %>% html_nodes("div#content_right a") %>% html_attr("href")
   email <- sub("mailto:", replacement = "", x = epname[grepl("mailto", epname)])
   
